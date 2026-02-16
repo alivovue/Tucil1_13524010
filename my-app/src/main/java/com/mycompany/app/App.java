@@ -1,10 +1,22 @@
 package com.mycompany.app;
 
-/**
- * Hello world!
- */
-public class App {
+import com.mycompany.app.frontend.MainMenu;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class App extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        MainMenu menu = new MainMenu();
+        Scene scene = menu.createScene(stage);
+        stage.setTitle("Queens Solver");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        launch(args);
     }
 }
