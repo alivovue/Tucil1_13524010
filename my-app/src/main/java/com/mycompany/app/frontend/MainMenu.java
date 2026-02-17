@@ -50,6 +50,7 @@ public class MainMenu {
         Button editButton = buttonsUI.editButton();
         Button resetBoardButton = buttonsUI.resetBoardButton();
         Button downloadButton = buttonsUI.downloadButton();
+        Button saveToFileButton = buttonsUI.saveToFile();
 
         editButton.setOnAction(e -> {
             EditMenu editMenu = new EditMenu();
@@ -77,6 +78,7 @@ public class MainMenu {
 
         resetBoardButton.setPrefWidth(150);
         downloadButton.setPrefWidth(150);
+        saveToFileButton.setPrefWidth(150);
 
         HBox topBar = new HBox(12, calculateButton, inputFileButton, editButton);
         topBar.setAlignment(Pos.CENTER_LEFT);
@@ -111,7 +113,7 @@ public class MainMenu {
         Label actionsTitle = new Label("Actions");
         actionsTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: 900;");
 
-        VBox actionsBox = new VBox(10, resetBoardButton, downloadButton);
+        VBox actionsBox = new VBox(10, resetBoardButton, downloadButton, saveToFileButton);
         actionsBox.setAlignment(Pos.TOP_LEFT);
 
         VBox rightPanel = new VBox(

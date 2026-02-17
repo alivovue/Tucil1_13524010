@@ -138,6 +138,68 @@ public class ButtonsUI {
         return b;
     }
 
+    public Button saveToFile() {
+        Button b = new Button("Save to file");
+        b.setOnAction(e -> {
+            Window window = b.getScene().getWindow();
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save .txt file");
+            fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt")
+            );
+            fileChooser.setInitialFileName("hasil.txt");
+
+            File file = fileChooser.showSaveDialog(window);
+            if (file == null) return;
+
+            try {
+                String path = file.getAbsolutePath();
+                if (!path.toLowerCase().endsWith(".txt")) {
+                    path += ".txt";
+                }
+
+                int n = this.colorObject.getLength();
+
+                try (java.io.BufferedWriter out =
+                        java.nio.file.Files.newBufferedWriter(
+                            java.nio.file.Path.of(path),
+                            java.nio.charset.StandardCharsets.UTF_8
+                        )) {
+
+                    for (int i = 0; i < n; i++) {
+                        StringBuilder row = new StringBuilder(n);
+                        for (int j = 0; j < n; j++) {
+
+                            int number = this.colorObject.getColorTile(i, j);
+
+                            if (number < 1 || number > 26) {
+                                throw new IllegalArgumentException("invalid color number at (" + i + "," + j + "): " + number);
+                            }
+
+                            char c;
+                            if (boardObject.getTile(i, j) == 1) {
+                                c = '#';
+                            }
+                            else {
+                                c = (char) ('A' + (number - 1));
+                            }
+                            row.append(c);
+                        }
+                        out.write(row.toString());
+                        out.newLine();
+                    }
+                }
+
+            } catch (Exception ex) {
+                errorMessage("File save error", ex.getMessage());
+            }
+        });
+        return b;
+    }
+
+
+
     public Button resetBoardButton() {
         Button b = new Button("Reset board");
         b.setOnAction(e -> {
