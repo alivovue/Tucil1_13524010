@@ -20,4 +20,5 @@ Program ini adalah **Queens Solver** berbasis **JavaFX** untuk menyelesaikan puz
 ### Jalankan dengan Maven
 Masuk ke dalam folder my-app, lalu jalankan program dengan command berikut : 
 ```bash
-mvn clean javafx:run
+mvn package
+mvn javafx:run
