@@ -1,17 +1,19 @@
 package com.mycompany.app.backend.controller;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import java.util.ArrayList;
+import java.util.List;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class PaletteUI {
     private int selectedColor;
-    public PaletteUI () {
+    private final List<Button> paletteButtons = new ArrayList<>(26);
+
+    public PaletteUI() {
         this.selectedColor = 1;
     }
-    // for color palette menu 
 
     public int getSelectedColor() {
         return selectedColor;
@@ -21,20 +23,28 @@ public class PaletteUI {
         GridPane grid = new GridPane();
         grid.setHgap(8);
         grid.setVgap(8);
-        grid.setAlignment(Pos.CENTER);
+        grid.setAlignment(Pos.TOP_LEFT);
+
+        paletteButtons.clear();
+
+        int columns = 6;
+
         for (int i = 1; i <= 26; i++) {
             String colorHex = getPaletteHex(i);
             Button b = createPaletteButton(colorHex, i);
+            paletteButtons.add(b);
 
             int index = i - 1;
-            int col = index % 13;
-            int row = index / 13;
+            int col = index % columns;
+            int row = index / columns;
 
             grid.add(b, col, row);
         }
 
+        updateHighlight();
         return grid;
     }
+
 
     private String getPaletteHex(int code) {
         String[] palette = new String[] {
@@ -49,22 +59,46 @@ public class PaletteUI {
 
     private Button createPaletteButton(String colorHex, int code) {
         Button b = new Button();
-        b.setMinSize(24, 24);
-        b.setPrefSize(24, 24);
-        b.setMaxSize(24, 24);
+        b.setMinSize(32, 32);
+        b.setPrefSize(32, 32);
+        b.setMaxSize(32, 32);
+        b.setStyle(baseStyle(colorHex, false));
 
-        b.setStyle(
-            "-fx-background-color: " + colorHex + ";" +
-            "-fx-border-color: #333333;" +
-            "-fx-border-width: 1;" +
-            "-fx-background-radius: 0;" +
-            "-fx-padding: 0;"
-        );
-
-        b.setOnAction(e ->{
+        b.setOnAction(e -> {
             selectedColor = code;
+            updateHighlight();
         });
 
         return b;
+    }
+
+    private void updateHighlight() {
+        for (int i = 0; i < paletteButtons.size(); i++) {
+            int code = i + 1;
+            String hex = getPaletteHex(code);
+            boolean selected = (code == selectedColor);
+            paletteButtons.get(i).setStyle(baseStyle(hex, selected));
+        }
+    }
+
+    private String baseStyle(String colorHex, boolean selected) {
+        if (selected) {
+            return ""
+                + "-fx-background-color: " + colorHex + ";"
+                + "-fx-border-color: black;"
+                + "-fx-border-width: 3;"
+                + "-fx-background-radius: 6;"
+                + "-fx-border-radius: 6;"
+                + "-fx-padding: 0;"
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 8, 0.25, 0, 0);";
+        }
+
+        return ""
+            + "-fx-background-color: " + colorHex + ";"
+            + "-fx-border-color: rgba(0,0,0,0.45);"
+            + "-fx-border-width: 1;"
+            + "-fx-background-radius: 6;"
+            + "-fx-border-radius: 6;"
+            + "-fx-padding: 0;";
     }
 }

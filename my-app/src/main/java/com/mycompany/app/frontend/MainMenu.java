@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainMenu {
@@ -32,40 +33,112 @@ public class MainMenu {
         Label timeLabel = new Label("Time : 0 ms");
         Label successLabel = new Label("Success : False");
 
+        String statusStyle = "-fx-font-size: 16px; -fx-font-weight: 600;";
+        iterationLabel.setStyle(statusStyle);
+        timeLabel.setStyle(statusStyle);
+        successLabel.setStyle(statusStyle);
+
         buttonsUI.setStatusLabel(iterationLabel, timeLabel, successLabel);
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(16));
 
-        StackPane centerWrap = new StackPane(boardUI.getGrid());
-        centerWrap.setAlignment(Pos.CENTER);
-        root.setCenter(centerWrap);
-
         Scene mainScene = new Scene(root, 900, 700);
 
-        Button btnCalc = buttonsUI.calculateButton();
-        Button btnFile = buttonsUI.inputFromFile();
+        Button calculateButton = buttonsUI.calculateButton();
+        Button inputFileButton = buttonsUI.inputFromFile();
+        Button editButton = buttonsUI.editButton();
+        Button resetBoardButton = buttonsUI.resetBoardButton();
+        Button downloadButton = buttonsUI.downloadButton();
 
-        Button btnResetBoard = buttonsUI.resetBoardButton();
-        Button btnDownload = buttonsUI.downloadButton();
-
-        Button btnEdit = buttonsUI.editButton();
-        btnEdit.setOnAction(e -> {
+        editButton.setOnAction(e -> {
             EditMenu editMenu = new EditMenu();
             Scene editScene = editMenu.createScene(stage, mainScene, board, color, sols, boardUI);
             stage.setScene(editScene);
         });
 
-        HBox topBar = new HBox(12, btnCalc, btnFile, btnEdit);
-        topBar.setAlignment(Pos.CENTER);
+        calculateButton.setStyle(
+            "-fx-font-weight: 900;" +
+            "-fx-padding: 10 18;" +
+            "-fx-background-radius: 8;" +
+            "-fx-border-radius: 8;" +
+            "-fx-background-color: #2d6cdf;" +
+            "-fx-text-fill: white;"
+        );
+
+        String secondaryStyle =
+            "-fx-font-weight: 700;" +
+            "-fx-padding: 10 16;" +
+            "-fx-background-radius: 8;" +
+            "-fx-border-radius: 8;";
+
+        inputFileButton.setStyle(secondaryStyle);
+        editButton.setStyle(secondaryStyle);
+
+        resetBoardButton.setPrefWidth(150);
+        downloadButton.setPrefWidth(150);
+
+        HBox topBar = new HBox(12, calculateButton, inputFileButton, editButton);
+        topBar.setAlignment(Pos.CENTER_LEFT);
         topBar.setPadding(new Insets(10));
-
-        HBox bottomBar = new HBox(12, btnResetBoard, btnDownload, iterationLabel, timeLabel, successLabel);
-        bottomBar.setAlignment(Pos.CENTER);
-        bottomBar.setPadding(new Insets(10));
-
         root.setTop(topBar);
-        root.setBottom(bottomBar);
+
+        Label boardTitle = new Label("Board");
+        boardTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: 900;");
+
+        StackPane boardWrap = new StackPane(boardUI.getGrid());
+        boardWrap.setAlignment(Pos.CENTER);
+        boardWrap.setPadding(new Insets(12));
+        boardWrap.setStyle(
+            "-fx-background-color: white;" +
+            "-fx-border-color: #d9d9d9;" +
+            "-fx-border-radius: 12;" +
+            "-fx-background-radius: 12;"
+        );
+
+        boardUI.getGrid().setHgap(0);
+        boardUI.getGrid().setVgap(0);
+
+        VBox centerCard = new VBox(12, boardTitle, boardWrap);
+        centerCard.setAlignment(Pos.TOP_CENTER);
+        centerCard.setPadding(new Insets(6));
+
+        root.setCenter(centerCard);
+
+        Label statusTitle = new Label("Status");
+        statusTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: 900;");
+
+        Label actionsTitle = new Label("Actions");
+        actionsTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: 900;");
+
+        VBox actionsBox = new VBox(10, resetBoardButton, downloadButton);
+        actionsBox.setAlignment(Pos.TOP_LEFT);
+
+        VBox rightPanel = new VBox(
+            12,
+            statusTitle,
+            iterationLabel,
+            timeLabel,
+            successLabel,
+            actionsTitle,
+            actionsBox
+        );
+        rightPanel.setAlignment(Pos.TOP_LEFT);
+        rightPanel.setPadding(new Insets(12));
+        rightPanel.setPrefWidth(210);
+        rightPanel.setMaxHeight(320);
+
+        rightPanel.setStyle(
+            "-fx-background-color: white;" +
+            "-fx-border-color: #d9d9d9;" +
+            "-fx-border-radius: 12;" +
+            "-fx-background-radius: 12;"
+        );
+
+        BorderPane.setAlignment(rightPanel, Pos.TOP_RIGHT);
+        BorderPane.setMargin(rightPanel, new Insets(6, 0, 0, 12));
+
+        root.setRight(rightPanel);
 
         return mainScene;
     }

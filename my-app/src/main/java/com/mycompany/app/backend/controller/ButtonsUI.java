@@ -1,9 +1,6 @@
 package com.mycompany.app.backend.controller;
 
 import java.io.File;
-import java.nio.Buffer;
-
-import javax.annotation.processing.FilerException;
 
 import com.mycompany.app.backend.data.*;
 
@@ -21,13 +18,9 @@ import javafx.scene.control.Alert;
 import javafx.stage.Window;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.WritableImage;
-import javafx.scene.transform.Transform;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -166,6 +159,11 @@ public class ButtonsUI {
     public Button downloadButton() {
         Button b = new Button("Download Result");
         b.setOnAction(e -> {
+            if (solutionObject.getSolutions().isEmpty()) {
+                errorMessage("No solution", "There is no solution yet, please run the program first");
+                return;
+            }
+
             Window window = b.getScene().getWindow();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Image");

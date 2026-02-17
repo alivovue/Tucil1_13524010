@@ -1,13 +1,23 @@
 # Tucil1_13524010
-Tucil 1 Strategi Algoritma
+**Tucil 1 Strategi Algoritma**  
+Queens Solver
 
-make venv first to run : 
+Audric Yusuf Maynard Simatupang
+13524010
 
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install PyQt6
-pip install opencv-python numpy pillow
+---
+
+## Deskripsi Singkat
+Program ini adalah **Queens Solver** berbasis **JavaFX** untuk menyelesaikan puzzle ratu pada papan **N×N** dengan **papan berwarna** (region/warna).  
 
 
-run :
-python main.py
+## Cara Menjalankan
+
+### Prasyarat
+- Java **17+** (disarankan)
+- Maven terinstall
+
+### Jalankan dengan Maven
+Masuk ke dalam folder my-app, lalu jalankan program dengan command berikut : 
+```bash
+mvn clean javafx:run
