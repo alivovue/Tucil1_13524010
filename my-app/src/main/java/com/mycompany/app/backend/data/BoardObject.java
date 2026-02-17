@@ -58,5 +58,9 @@ public class BoardObject {
         }
     }
 
+    public void setSize(int n) {
+        this.board = new int[n][n];
+    }
+
 
 }

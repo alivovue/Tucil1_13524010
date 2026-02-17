@@ -7,6 +7,7 @@ public class ColorObject {
     
     public ColorObject(int size) {
         color = new int[size][size];
+        resetColor();
     }
 
     // getter
@@ -20,7 +21,7 @@ public class ColorObject {
             return color[x][y];
         }
         else {
-            throw new IllegalArgumentException("invalid color");
+            return -1;
         }
     }
 
@@ -49,5 +50,40 @@ public class ColorObject {
         }
     }
 
+    public void copyBoard(ColorObject colorObject) {
+        int length = colorObject.getLength();
+        this.color = new int[length][length];
+        for (int i = 0 ; i < color.length ; i++) {
+            for (int j = 0 ; j < color.length ; j++) {
+                this.color[i][j] = colorObject.getColorTile(i, j);
+            }
+        }
+    }
 
+    public ColorObject copyColorObject() {
+        int n = getLength();
+        ColorObject temp = new ColorObject(n);
+        for (int i = 0 ; i < n ; i++) {
+            for (int j = 0 ; j < n ; j++) {
+                temp.setColor(i, j, this.color[i][j]);
+            }
+        }
+        return temp;
+    }
+
+    public void setSize(int size) {
+        this.color = new int[size][size];
+    }
+
+    // checking
+    public boolean isValidColor() {
+        for (int i = 0 ; i < color.length ; i++) {
+            for (int j = 0 ; j < color.length ; j++) {
+                if (color[i][j] == 0 || color[i][j] > 26) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

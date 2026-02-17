@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class SolutionObject {
     private ArrayList<int[]> solutions;
     private int time;
-    private int iteration;
+    private long iteration;
 
     public SolutionObject() {
         solutions = new ArrayList<>();
@@ -43,11 +43,13 @@ public class SolutionObject {
         return time;
     }
 
-    public int getIteration() {
+    public long getIteration() {
         return iteration;
     }
 
-    public void clearSolutions() {
+    public void resetSolutions() {
         solutions.clear();
+        time = 0;
+        iteration = 0;
     }
 }

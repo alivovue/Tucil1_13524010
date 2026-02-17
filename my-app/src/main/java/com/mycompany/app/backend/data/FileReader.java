@@ -19,7 +19,7 @@ public class FileReader {
             }
         }
 
-        boolean[] seen = new boolean[26];
+        boolean[] seen = new boolean[27];
         int jumlahWarna = 0;
 
         ColorObject color = new ColorObject(n);
@@ -31,7 +31,7 @@ public class FileReader {
                     throw new IllegalArgumentException("not valid char");
                 }
 
-                int number = c - 'A';
+                int number = c - 'A' + 1;
 
                 if (!seen[number]) {
                     seen[number] = true;
